@@ -10,11 +10,11 @@ block content
   header
   div.contnt
     p "R"
-      input(type='number', min='0', max='255', value='0')#R
+      input(type='color')#color1
     p "G"
-      input(type='number', min='0', max='255', value='0')#G
+      input(type='color')#color2
     p "B"
-      input(type='number', min='0', max='255', value='0')#B
+      input(type='color')#color3
     p "interval"
       input(type='number', min='0', max='10000', value='1000')#interval
   footer
@@ -23,51 +23,44 @@ block scripts
   script(src="//code.jquery.com/jquery-1.11.0.min.js")
   script(src="//code.jquery.com/jquery-migrate-1.2.1.min.js")
   script(src="/socket.io/socket.io.js")
-  script(src="js/spectrum.js")
-  script(rel="stylesheet" href="css/spectrum.css")
   script(type="text/javascript").
+    function hexToRgb(hex) {
+      var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return result ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16)
+      } : null;
+    }
+    function elementToMessage(element, interval){
+      elementValue = element.val();
+      rgb = hexToRgb(elementValue)
+      return {
+              'r': parseInt(rgb.r),
+              'g': parseInt(rgb.g),
+              'b': parseInt(rgb.b),
+              'interval': interval
+          }
+    }
     jQuery(function($) {
+      var socket = io.connect();
+      var $color1 = $('#color1');
+      var $color2 = $('#color2');
+      var $color3 = $('#color3');
+      var $interval = $('#interval');
 
-    var socket = io.connect();
-    var $r = $('#R');
-    var $g = $('#G');
-    var $b = $('#B');
-    var $interval = $('#interval');
 
       $(document).keyup(function(e) {
         console.log(e.which)
-        switch(e.which) {
-          case 81: // q
-            $r.val(parseInt($r.val()) + 10)
-            break;
-          case 87: //w 
-            $g.val(parseInt($g.val()) + 10)
-            break;
-          case 69: // e
-            $b.val(parseInt($b.val()) + 10)
-            break;
-          case 82: // r
-            $interval.val(parseInt($interval.val()) + 100)
-            break;
-          case 65: // a
-            $r.val(parseInt($r.val()) - 10)
-            break;
-          case 83: // s
-            $g.val(parseInt($g.val()) - 10)
-            break;
-          case 68: //d
-            $b.val(parseInt($b.val()) - 10)
-            break;
-          case 70: //f
-            $interval.val(parseInt($interval.val()) - 100)
-            break;
-        }
-        message = {
-              'r': parseInt($r.val()),
-              'g': parseInt($g.val()),
-              'b': parseInt($b.val()),
-              'interval': parseInt($interval.val())
-          }
+        if (e.which == 13) {
+          message1 = elementToMessage($color1, parseInt($interval.val()))
+          message2 = elementToMessage($color2, parseInt($interval.val()))
+          message3 = elementToMessage($color3, parseInt($interval.val()))
+
+          message = [
+              message1, message2, message3
+          ]
           socket.emit('colorState', message);
+        }
       });
     });
