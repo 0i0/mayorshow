@@ -1,0 +1,28 @@
+extends layout
+
+block title
+  title Mayor
+  meta(name="description",content="Mayor")
+
+block style
+
+block content
+  header
+  div.contnt
+  footer
+
+block scripts
+  script(type="text/javascript").
+    var body = document.getElementsByTagName('body')[0];
+    if(Math.random()<0.5){
+      body.style.cssText = "background-color:#f00"
+    }else{  
+      body.style.cssText = "background-color:#00f"
+    }
+    setInterval(function(){
+      if(Math.random()<0.5){
+        body.style.cssText = "background-color:#f00"
+      }else{
+        body.style.cssText = "background-color:#00f"
+      }
+    },2000)
