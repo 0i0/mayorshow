@@ -16,13 +16,15 @@ block content
     p "B"
       input(type='number', min='0', max='255', value='0')#B
     p "interval"
-      input(type='number', min='0', max='10000', value='0')#interval
+      input(type='number', min='0', max='10000', value='1000')#interval
   footer
 
 block scripts
   script(src="//code.jquery.com/jquery-1.11.0.min.js")
   script(src="//code.jquery.com/jquery-migrate-1.2.1.min.js")
   script(src="/socket.io/socket.io.js")
+  script(src="js/spectrum.js")
+  script(rel="stylesheet" href="css/spectrum.css")
   script(type="text/javascript").
     jQuery(function($) {
 
@@ -61,10 +63,10 @@ block scripts
             break;
         }
         message = {
-              'r': $r.val(),
-              'g': $g.val(),
-              'b': $b.val(),
-              'interval': $interval.val()
+              'r': parseInt($r.val()),
+              'g': parseInt($g.val()),
+              'b': parseInt($b.val()),
+              'interval': parseInt($interval.val())
           }
           socket.emit('colorState', message);
       });
