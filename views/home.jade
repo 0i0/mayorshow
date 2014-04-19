@@ -34,17 +34,14 @@ block scripts
     }
     function setBeat(data){
       var d=0;
+      clearInterval(beatInterval);
       beatInterval = setInterval(function(){
         d += 10;
         var delta = Math.PI*d/data.interval;
         content.style.opacity = Math.sin(delta)*Math.sin(delta)
       },10)
     }
-    var socket = io.connect('http://localhost');
-    socket.on('colorState', function (data) {
-      console.log(data);
-      socket.emit('my other event', { my: 'data' });
-    });
+    var socket = io.connect('http://'+window.location.hostname);
     socket.on('colorState', function (data) {
       console.log(data);
       changeColor(data)
