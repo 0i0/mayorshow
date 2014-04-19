@@ -28,6 +28,7 @@ block scripts
     //- },2000)
   script(src="/socket.io/socket.io.js")
   script(type="text/javascript").
+    var beatInterval
     function changeColor(data){
       content.style.cssText = "background-color:rgb("+data.r+','+data.g+','+data.b+');';
     }

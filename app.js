@@ -26,9 +26,14 @@ app.get('/', function(req, res) {
   res.render('home.jade', {});
 });
 
+app.get('/_admin', function(req, res) {
+  res.render('control.jade')
+})
+
+
 io.sockets.on('connection', function (socket) {
   socket.emit('news', { hello: 'world' });
-  socket.emit('state', { r: 200
+  socket.emit('colorState', { r: 200
                         , g:200
                         ,b : 100
                         , interval : 2000
@@ -37,4 +42,3 @@ io.sockets.on('connection', function (socket) {
     console.log(data);
   });
 });
-
