@@ -28,12 +28,14 @@ app.get('/', function(req, res) {
 
 app.get('/_admin', function(req, res) {
   res.render('control.jade')
-})
+});
 
+var colorState = {r: 0, g:0, b:0, interval: 0};
 
 io.sockets.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
+  socket.emit('colorState', colorState);
   socket.on('colorState', function (data) {
-    console.log(data);
+      colorState = data;
+      socket.broadcast.emit('colorState', colorState);
   });
 });

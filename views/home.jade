@@ -29,7 +29,7 @@ block scripts
   script(src="/socket.io/socket.io.js")
   script(type="text/javascript").
     var socket = io.connect('http://localhost');
-    socket.on('news', function (data) {
+    socket.on('colorState', function (data) {
       console.log(data);
-      socket.emit('my other event', { my: 'data' });
+      //TODO: do it
     });
