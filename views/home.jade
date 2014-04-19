@@ -8,7 +8,7 @@ block style
 
 block content
   header
-  div#content ssss
+  div#content
   footer
 
 block scripts
@@ -28,19 +28,24 @@ block scripts
     //- },2000)
   script(src="/socket.io/socket.io.js")
   script(type="text/javascript").
-    var beatInterval
+    var beatInterval;
     function changeColor(data){
       content.style.cssText = "background-color:rgb("+data.r+','+data.g+','+data.b+');';
     }
     function setBeat(data){
-
+      var d=0;
+      beatInterval = setInterval(function(){
+        d += 10;
+        var delta = Math.PI*d/data.interval;
+        content.style.opacity = Math.sin(delta)*Math.sin(delta)
+      },10)
     }
     var socket = io.connect('http://localhost');
     socket.on('colorState', function (data) {
       console.log(data);
       socket.emit('my other event', { my: 'data' });
     });
-    socket.on('state', function (data) {
+    socket.on('colorState', function (data) {
       console.log(data);
       changeColor(data)
       setBeat(data)
