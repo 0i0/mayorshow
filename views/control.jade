@@ -42,12 +42,35 @@ block scripts
               'interval': interval
           }
     }
+    function componentToHex(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+    }
+
+    function rgbToHex(r, g, b) {
+        return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+    }
     jQuery(function($) {
       var socket = io.connect();
+
       var $color1 = $('#color1');
       var $color2 = $('#color2');
       var $color3 = $('#color3');
       var $interval = $('#interval');
+
+      socket.on('colorState', function(message) {
+        console.log(message)
+        colors = [$color1, $color2, $color3]
+        for (var i = 0; i < message.length; i++) {
+            var color = message[i]
+            var colorInput = colors[i]
+            var colorHextValue = rgbToHex(color.r, color.g, color.b)
+            colorInput.val(colorHextValue)
+          }
+        $interval.val(message[0].interval)
+      });
+
+      
 
 
       $(document).keyup(function(e) {
