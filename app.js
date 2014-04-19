@@ -28,6 +28,11 @@ app.get('/', function(req, res) {
 
 io.sockets.on('connection', function (socket) {
   socket.emit('news', { hello: 'world' });
+  socket.emit('state', { r: 200
+                        , g:200
+                        ,b : 100
+                        , interval : 2000
+                       });
   socket.on('my other event', function (data) {
     console.log(data);
   });
