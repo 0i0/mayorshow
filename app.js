@@ -30,7 +30,7 @@ app.get('/_admin', function(req, res) {
   res.render('control.jade')
 });
 
-var colorState = {r: 0, g:0, b:0, interval: 0};
+var colorState = {r: 200, g:200, b:100, interval: 2000};
 
 io.sockets.on('connection', function (socket) {
   socket.emit('colorState', colorState);

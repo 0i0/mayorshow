@@ -8,28 +8,40 @@ block style
 
 block content
   header
-  div.contnt
+  div#content ssss
   footer
 
 block scripts
   script(type="text/javascript").
-    var body = document.getElementsByTagName('body')[0];
-    if(Math.random()<0.5){
-      body.style.cssText = "background-color:#f00"
-    }else{  
-      body.style.cssText = "background-color:#00f"
-    }
-    setInterval(function(){
-      if(Math.random()<0.5){
-        body.style.cssText = "background-color:#f00"
-      }else{
-        body.style.cssText = "background-color:#00f"
-      }
-    },2000)
+    var content = document.getElementById('content');
+    //- if(Math.random()<0.5){
+    //-   body.style.cssText = "background-color:#f00"
+    //- }else{  
+    //-   body.style.cssText = "background-color:#00f"
+    //- }
+    //- setInterval(function(){
+    //-   if(Math.random()<0.5){
+    //-     body.style.cssText = "background-color:#f00"
+    //-   }else{
+    //-     body.style.cssText = "background-color:#00f"
+    //-   }
+    //- },2000)
   script(src="/socket.io/socket.io.js")
   script(type="text/javascript").
+    var beatInterval
+    function changeColor(data){
+      content.style.cssText = "background-color:rgb("+data.r+','+data.g+','+data.b+');';
+    }
+    function setBeat(data){
+
+    }
     var socket = io.connect('http://localhost');
     socket.on('colorState', function (data) {
       console.log(data);
-      //TODO: do it
+      socket.emit('my other event', { my: 'data' });
+    });
+    socket.on('state', function (data) {
+      console.log(data);
+      changeColor(data)
+      setBeat(data)
     });

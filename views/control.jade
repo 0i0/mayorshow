@@ -33,7 +33,33 @@ block scripts
     var $interval = $('#interval');
 
       $(document).keyup(function(e) {
-        console.log("key up")
+        console.log(e.which)
+        switch(e.which) {
+          case 81: // q
+            $r.val(parseInt($r.val()) + 10)
+            break;
+          case 87: //w 
+            $g.val(parseInt($g.val()) + 10)
+            break;
+          case 69: // e
+            $b.val(parseInt($b.val()) + 10)
+            break;
+          case 82: // r
+            $interval.val(parseInt($interval.val()) + 100)
+            break;
+          case 65: // a
+            $r.val(parseInt($r.val()) - 10)
+            break;
+          case 83: // s
+            $g.val(parseInt($g.val()) - 10)
+            break;
+          case 68: //d
+            $b.val(parseInt($b.val()) - 10)
+            break;
+          case 70: //f
+            $interval.val(parseInt($interval.val()) - 100)
+            break;
+        }
         message = {
               'r': $r.val(),
               'g': $g.val(),
