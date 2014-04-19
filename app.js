@@ -21,13 +21,12 @@ app.get('/', function(req, res) {
   res.render('home.jade', {});
 });
 
+app.get('/_admin', function(req, res) {
+  res.render('control.jade')
+})
+
 if (!module.parent) {
   var port = process.env.PORT || 3000
   app.listen(port)
   console.log('app running on port %d', port)
 }
-
-
-
-
-

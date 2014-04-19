@@ -1,0 +1,47 @@
+extends layout
+
+block title
+  title Mayor Admin
+  meta(name="description",content="Mayor")
+
+block style
+
+block content
+  header
+  div.contnt
+    p "R"
+      input(type='number', min='0', max='255').R
+    p "G"
+      input(type='number', min='0', max='255').G
+    p "B"
+      input(type='number', min='0', max='255').B
+    p "interval"
+      input(type='number', min='0', max='10000').interval
+  footer
+
+block scripts
+  script(src="//code.jquery.com/jquery-1.11.0.min.js")
+  script(src="//code.jquery.com/jquery-migrate-1.2.1.min.js")
+  script(src="/socket.io/socket.io.js")
+  script(type="text/javascript").
+    jQuery(function($) {
+
+    var socket = io.connect();
+    var $r = $('#R');
+    var $g = $('#G');
+    var $b = $('#B');
+    var $interval = $('#interval');
+
+      [$r, $g, $b, $interval].forEach(function(inputElement) {
+          inputElement.keyUp(function(e) {
+              e.preventDefault();
+              message = {
+                  'r': $r.val(),
+                  'g': $g.val(),
+                  'b': $b.val(),
+                  'interval': $interval.val()
+              }
+              socket.emit('colorState', message);
+          });
+      });
+    });
