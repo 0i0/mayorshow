@@ -3,6 +3,8 @@ var DEBUG = process.env.NODE_ENV != 'production';
 // Dependencies.
 var express = require('express')
   , app = express()
+  , server = require('http').createServer(app)
+  , io = require('socket.io').listen(server);
 
 app.configure(function(){
   app.set('views',__dirname + '/views')
@@ -16,7 +18,10 @@ app.configure(function(){
   app.use(app.router)
 })
 
-// Boot
+var port = process.env.PORT || 3000
+server.listen(port)
+console.log('app running on port %d', port)
+
 app.get('/', function(req, res) {
   res.render('home.jade', {});
 });
@@ -25,8 +30,10 @@ app.get('/_admin', function(req, res) {
   res.render('control.jade')
 })
 
-if (!module.parent) {
-  var port = process.env.PORT || 3000
-  app.listen(port)
-  console.log('app running on port %d', port)
-}
+
+io.sockets.on('connection', function (socket) {
+  socket.emit('news', { hello: 'world' });
+  socket.on('my other event', function (data) {
+    console.log(data);
+  });
+});
