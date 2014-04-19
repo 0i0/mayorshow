@@ -33,7 +33,7 @@ app.get('/_admin', function(req, res) {
 
 io.sockets.on('connection', function (socket) {
   socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
+  socket.on('colorState', function (data) {
     console.log(data);
   });
 });

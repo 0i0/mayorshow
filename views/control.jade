@@ -10,13 +10,13 @@ block content
   header
   div.contnt
     p "R"
-      input(type='number', min='0', max='255').R
+      input(type='number', min='0', max='255', value='0')#R
     p "G"
-      input(type='number', min='0', max='255').G
+      input(type='number', min='0', max='255', value='0')#G
     p "B"
-      input(type='number', min='0', max='255').B
+      input(type='number', min='0', max='255', value='0')#B
     p "interval"
-      input(type='number', min='0', max='10000').interval
+      input(type='number', min='0', max='10000', value='0')#interval
   footer
 
 block scripts
@@ -32,16 +32,14 @@ block scripts
     var $b = $('#B');
     var $interval = $('#interval');
 
-      [$r, $g, $b, $interval].forEach(function(inputElement) {
-          inputElement.keyUp(function(e) {
-              e.preventDefault();
-              message = {
-                  'r': $r.val(),
-                  'g': $g.val(),
-                  'b': $b.val(),
-                  'interval': $interval.val()
-              }
-              socket.emit('colorState', message);
-          });
+      $(document).keyup(function(e) {
+        console.log("key up")
+        message = {
+              'r': $r.val(),
+              'g': $g.val(),
+              'b': $b.val(),
+              'interval': $interval.val()
+          }
+          socket.emit('colorState', message);
       });
     });
