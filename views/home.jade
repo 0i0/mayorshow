@@ -28,16 +28,17 @@ block scripts
     //- },2000)
   script(src="/socket.io/socket.io.js")
   script(type="text/javascript").
+    var room = Math.floor(Math.random()*3)
     var beatInterval;
     function changeColor(data){
-      content.style.cssText = "background-color:rgb("+data.r+','+data.g+','+data.b+');';
+      content.style.cssText = "background-color:rgb("+data[room].r+','+data[room].g+','+data[room].b+');';
     }
     function setBeat(data){
       var d=0;
       clearInterval(beatInterval);
       beatInterval = setInterval(function(){
         d += 10;
-        var delta = Math.PI*d/data.interval;
+        var delta = Math.PI*d/data[room].interval;
         content.style.opacity = Math.sin(delta)*Math.sin(delta)
       },10)
     }
