@@ -9,6 +9,11 @@ block style
 block content
   header
   div.contnt
+    p "Phase"
+      select#phase
+        option(value="pre") Pre
+        option(value="on") On
+        option(value="post") Post
     p "R"
       input(type='color')#color1
     p "G"
@@ -32,10 +37,11 @@ block scripts
           b: parseInt(result[3], 16)
       } : null;
     }
-    function elementToMessage(element, interval){
+    function elementToMessage(element, interval, phase){
       elementValue = element.val();
       rgb = hexToRgb(elementValue)
       return {
+              'phase':phase,
               'r': parseInt(rgb.r),
               'g': parseInt(rgb.g),
               'b': parseInt(rgb.b),
@@ -57,6 +63,7 @@ block scripts
       var $color2 = $('#color2');
       var $color3 = $('#color3');
       var $interval = $('#interval');
+      var $phase = $('#phase');
 
       socket.on('colorState', function(message) {
         console.log(message)
@@ -76,9 +83,9 @@ block scripts
       $(document).keyup(function(e) {
         console.log(e.which)
         if (e.which == 13) {
-          message1 = elementToMessage($color1, parseInt($interval.val()))
-          message2 = elementToMessage($color2, parseInt($interval.val()))
-          message3 = elementToMessage($color3, parseInt($interval.val()))
+          message1 = elementToMessage($color1, parseInt($interval.val()), $phase.val())
+          message2 = elementToMessage($color2, parseInt($interval.val()), $phase.val())
+          message3 = elementToMessage($color3, parseInt($interval.val()), $phase.val())
 
           message = [
               message1, message2, message3
